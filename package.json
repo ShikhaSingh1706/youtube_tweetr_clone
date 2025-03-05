@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "clone of youtube and tweeter with some similar functionality.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev":"nodemon src/index.js"
   },
   "keywords": [
     "youtube",
@@ -13,5 +14,8 @@
     "tweeter"
   ],
   "author": "shikha singh",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
 }
