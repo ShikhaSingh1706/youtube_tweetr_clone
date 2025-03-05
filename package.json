@@ -1,0 +1,17 @@
+{
+  "name": "youtube_tweeter",
+  "version": "1.0.0",
+  "description": "clone of youtube and tweeter with some similar functionality.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "youtube",
+    "javascript",
+    "backend",
+    "tweeter"
+  ],
+  "author": "shikha singh",
+  "license": "ISC"
+}
