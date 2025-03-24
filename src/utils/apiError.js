@@ -2,8 +2,8 @@ class apiError extends Error{
     constructor(
         statusCode,
         message= " something webnt wrong",
-        error=[],
-        statck=""
+        errors=[],
+        stack=""
 
     ){
         super(message)
