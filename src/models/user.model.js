@@ -19,7 +19,7 @@ const userSchema = new Schema(
             lowecase: true,
             trim: true, 
         },
-        fullName: {
+        fullname: {
             type: String,
             required: true,
             trim: true, 
@@ -63,13 +63,12 @@ userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password, this.password)
 }
 
-userSchema.methods.generateAccessToken = function(){
-    return jwt.sign(
+userSchema.methods.generateAccessToken = function(){    return jwt.sign(
         {
             _id: this._id,
             email: this.email,
             username: this.username,
-            fullName: this.fullName
+            fullname: this.fullname
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
@@ -90,4 +89,4 @@ userSchema.methods.generateRefreshToken = function(){
     )
 }
 
-export const user = mongoose.model("user", userSchema)
+export const User = mongoose.model("User", userSchema)
