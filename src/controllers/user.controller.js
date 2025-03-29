@@ -257,14 +257,14 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
 
     return res
     .status(200)
-    .json(new ApiResponse(200, {}, "Password changed successfully"))
+    .json(new apiResponse(200, {}, "Password changed successfully"))
 })
 
 
 const getCurrentUser = asyncHandler(async(req, res) => {
     return res
     .status(200)
-    .json(new ApiResponse(
+    .json(new apiResponse(
         200,
         req.user,
         "User fetched successfully"
@@ -272,17 +272,17 @@ const getCurrentUser = asyncHandler(async(req, res) => {
 })
 
 const updateAccountDetails = asyncHandler(async(req, res) => {
-    const {fullName, email} = req.body
+    const {fullname, email} = req.body
 
-    if (!fullName || !email) {
-        throw new ApiError(400, "All fields are required")
+    if (!fullname || !email) {
+        throw new apiError(400, "All fields are required")
     }
 
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
             $set: {
-                fullName,
+                fullname, //both are correct way
                 email: email
             }
         },
@@ -292,14 +292,14 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
 
     return res
     .status(200)
-    .json(new ApiResponse(200, user, "Account details updated successfully"))
+    .json(new apiResponse(200, user, "Account details updated successfully"))
 });
 
 const updateUserAvatar = asyncHandler(async(req, res) => {
     const avatarLocalPath = req.file?.path
 
     if (!avatarLocalPath) {
-        throw new ApiError(400, "Avatar file is missing")
+        throw new apiError(400, "Avatar file is missing")
     }
 
     //TODO: delete old image - assignment
@@ -307,7 +307,7 @@ const updateUserAvatar = asyncHandler(async(req, res) => {
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
     if (!avatar.url) {
-        throw new ApiError(400, "Error while uploading on avatar")
+        throw new apiError(400, "Error while uploading on avatar")
         
     }
 
@@ -324,7 +324,7 @@ const updateUserAvatar = asyncHandler(async(req, res) => {
     return res
     .status(200)
     .json(
-        new ApiResponse(200, user, "Avatar image updated successfully")
+        new apiResponse(200, user, "Avatar image updated successfully")
     )
 })
 
@@ -332,7 +332,7 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
     const coverImageLocalPath = req.file?.path
 
     if (!coverImageLocalPath) {
-        throw new ApiError(400, "Cover image file is missing")
+        throw new apiError(400, "Cover image file is missing")
     }
 
     //TODO: delete old image - assignment
@@ -341,7 +341,7 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
     if (!coverImage.url) {
-        throw new ApiError(400, "Error while uploading on avatar")
+        throw new apiError(400, "Error while uploading on avatar")
         
     }
 
@@ -358,7 +358,7 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
     return res
     .status(200)
     .json(
-        new ApiResponse(200, user, "Cover image updated successfully")
+        new apiResponse(200, user, "Cover image updated successfully")
     )
 })
 
@@ -367,7 +367,7 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
     const {username} = req.params
 
     if (!username?.trim()) {
-        throw new ApiError(400, "username is missing")
+        throw new apiError(400, "username is missing")
     }
 
     const channel = await User.aggregate([
@@ -411,7 +411,7 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
         },
         {
             $project: {
-                fullName: 1,
+                fullname: 1,
                 username: 1,
                 subscribersCount: 1,
                 channelsSubscribedToCount: 1,
@@ -425,13 +425,13 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
     ])
 
     if (!channel?.length) {
-        throw new ApiError(404, "channel does not exists")
+        throw new apiError(404, "channel does not exists")
     }
 
     return res
     .status(200)
     .json(
-        new ApiResponse(200, channel[0], "User channel fetched successfully")
+        new apiResponse(200, channel[0], "User channel fetched successfully")
     )
 })
 
@@ -458,7 +458,7 @@ const getWatchHistory = asyncHandler(async(req, res) => {
                             pipeline: [
                                 {
                                     $project: {
-                                        fullName: 1,
+                                        fullname: 1,
                                         username: 1,
                                         avatar: 1
                                     }
@@ -481,7 +481,7 @@ const getWatchHistory = asyncHandler(async(req, res) => {
     return res
     .status(200)
     .json(
-        new ApiResponse(
+        new apiResponse(
             200,
             user[0].watchHistory,
             "Watch history fetched successfully"
